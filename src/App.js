@@ -2,18 +2,25 @@ import { useState, useEffect } from 'react'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
+import Title from './components/Title'
+import UserInfo from './components/UserInfo'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    (async () => {
+      const blogs = await blogService.getAll();
       setBlogs( blogs )
-    )  
+    })();
   }, [])
 
   useEffect(() => {
@@ -22,16 +29,27 @@ const App = () => {
     {
       const userObj = JSON.parse(loggedInUser);
       setUser(userObj);
+      blogService.setToken(userObj.token);
     }
   }, [])
 
   return (
     <>
       {user === null &&
-      <Login setUsername={setUsername} setPassword={setPassword} setUser={setUser} password={password} username={username}/>
+      <>
+        <Title name = 'log in to application'/>
+        <Login setUsername={setUsername} setPassword={setPassword} setUser={setUser} password={password} username={username}/>
+      </>
       }
-      {user !== null &&
-      <BlogList blogs={blogs} user={user} setUser={setUser} />
+      
+      { user !== null &&
+        <>
+          <Title name='blogs'/>
+          <UserInfo setUser={setUser} user={user} />
+          <Title name='create new'/>
+          <BlogForm title={title} setTitle={setTitle} author={author} setAuthor={setAuthor} url={url} setUrl={setUrl} blogs={blogs} setBlogs={setBlogs}/>
+          <BlogList blogs={blogs} user={user} setUser={setUser} />
+        </>
       }
     </>
   )

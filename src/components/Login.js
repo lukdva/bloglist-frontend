@@ -8,8 +8,11 @@ const Login = (props) => {
         console.log(props.password)
         const result = axios.post('/api/login', {username: props.username, password: props.password});
         result.then(response => {
+          window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
           console.log(response.data.token);
           props.setUser(response.data);
+          props.setUsername('');
+          props.setPassword('');
         })
         .catch( err => {
           console.log(err.message)

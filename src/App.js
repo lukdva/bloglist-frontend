@@ -5,6 +5,7 @@ import BlogList from './components/BlogList'
 import Title from './components/Title'
 import UserInfo from './components/UserInfo'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +15,8 @@ const App = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
+  const [message, setMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
 
 
   useEffect(() => {
@@ -38,16 +41,18 @@ const App = () => {
       {user === null &&
       <>
         <Title name = 'log in to application'/>
-        <Login setUsername={setUsername} setPassword={setPassword} setUser={setUser} password={password} username={username}/>
+        <Notification msg={message} error={isError}/>
+        <Login setUsername={setUsername} setPassword={setPassword} setUser={setUser} password={password} username={username} setMessage={setMessage} setIsError={setIsError}/>
       </>
       }
       
       { user !== null &&
         <>
           <Title name='blogs'/>
+          <Notification msg={message} error={isError}/>
           <UserInfo setUser={setUser} user={user} />
           <Title name='create new'/>
-          <BlogForm title={title} setTitle={setTitle} author={author} setAuthor={setAuthor} url={url} setUrl={setUrl} blogs={blogs} setBlogs={setBlogs}/>
+          <BlogForm title={title} setTitle={setTitle} author={author} setAuthor={setAuthor} url={url} setUrl={setUrl} blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} setIsError={setIsError}/>
           <BlogList blogs={blogs} user={user} setUser={setUser} />
         </>
       }

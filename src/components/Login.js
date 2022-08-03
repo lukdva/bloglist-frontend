@@ -5,19 +5,25 @@ const Login = (props) => {
 
     const handleLogin = async(event) => {
         event.preventDefault();
-        console.log(props.username)
-        console.log(props.password)
-        const response = await axios.post('/api/login', {username: props.username, password: props.password});
-        window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
-        console.log(response.data.token);
-        props.setUser(response.data);
-        blogService.setToken(response.data.token);
-        props.setUsername('');
-        props.setPassword('');
-        
-        // .catch( err => {
-        //   console.log(err.message)
-        // })
+        try{
+            const response = await axios.post('/api/login', {username: props.username, password: props.password});
+            window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
+            props.setUser(response.data);
+            blogService.setToken(response.data.token);
+            props.setUsername('');
+            props.setPassword('');
+            props.setMessage('Login successful');
+            props.setIsError(false);
+            setTimeout(() => {
+                props.setMessage(null);
+            }, 3000);
+        } catch(err) {
+            props.setMessage(err.message);
+            props.setIsError(true);
+            setTimeout(() => {
+                props.setMessage(null);
+            }, 3000);
+        }
       }
 
     return (

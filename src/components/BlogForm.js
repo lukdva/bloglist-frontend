@@ -4,6 +4,7 @@ const BlogForm = (props) => {
     const handleNewBlogSubmit = async (event) => {
         event.preventDefault();
         try {
+            props.blogFormRef.current.toggleVisibility();
             console.log(props.title, props.author, props.url)
             const blog = {title: props.title, author: props.author, url: props.url}
             const newBlog = await blogService.createNew(blog)

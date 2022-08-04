@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
@@ -6,6 +6,7 @@ import Title from './components/Title'
 import UserInfo from './components/UserInfo'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -18,6 +19,7 @@ const App = () => {
   const [message, setMessage] = useState(null);
   const [isError, setIsError] = useState(false);
 
+  const blogFormRef = useRef()
 
   useEffect(() => {
     (async () => {
@@ -52,7 +54,9 @@ const App = () => {
           <Notification msg={message} error={isError}/>
           <UserInfo setUser={setUser} user={user} />
           <Title name='create new'/>
-          <BlogForm title={title} setTitle={setTitle} author={author} setAuthor={setAuthor} url={url} setUrl={setUrl} blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} setIsError={setIsError}/>
+          <Togglable buttonText='new note' ref={blogFormRef}>
+            <BlogForm title={title} setTitle={setTitle} author={author} setAuthor={setAuthor} url={url} setUrl={setUrl} blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} setIsError={setIsError} blogFormRef={blogFormRef}/>
+          </Togglable>
           <BlogList blogs={blogs} user={user} setUser={setUser} />
         </>
       }

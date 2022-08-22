@@ -10,7 +10,6 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null);
   const [isError, setIsError] = useState(false);
@@ -53,7 +52,7 @@ const App = () => {
           <Togglable buttonText='new note' ref={blogFormRef}>
             <BlogForm blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} setIsError={setIsError} blogFormRef={blogFormRef}/>
           </Togglable>
-          <BlogList blogs={blogs} user={user} setUser={setUser} setBlogs={setBlogs} />
+          <BlogList blogs={blogs} user={user} setBlogs={setBlogs} />
         </>
       }
     </>

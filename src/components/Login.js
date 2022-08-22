@@ -1,17 +1,21 @@
 import axios from 'axios'
 import blogService from '../services/blogs'
+import { useState } from 'react'
 
 const Login = (props) => {
+
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
     const handleLogin = async(event) => {
         event.preventDefault();
         try{
-            const response = await axios.post('/api/login', {username: props.username, password: props.password});
+            const response = await axios.post('/api/login', {username, password});
             window.localStorage.setItem('loggedInUser', JSON.stringify(response.data))
             props.setUser(response.data);
             blogService.setToken(response.data.token);
-            props.setUsername('');
-            props.setPassword('');
+            setUsername('');
+            setPassword('');
             props.setMessage('Login successful');
             props.setIsError(false);
             setTimeout(() => {
@@ -34,8 +38,8 @@ const Login = (props) => {
                 <input 
                     type="text"
                     name="Username"
-                    value={props.username}
-                    onChange = {({target}) => {props.setUsername(target.value)}}
+                    value={username}
+                    onChange = {({target}) => {setUsername(target.value)}}
                  ></input> 
             </div> 
             <div>
@@ -43,8 +47,8 @@ const Login = (props) => {
                 <input
                     type="password"
                     name="Password"
-                    value={props.password}
-                    onChange = {({target}) => {props.setPassword(target.value)}}
+                    value={password}
+                    onChange = {({target}) => {setPassword(target.value)}}
                 ></input> 
             </div> 
             <button type="submit">login</button>

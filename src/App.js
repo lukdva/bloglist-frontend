@@ -10,12 +10,8 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
   const [message, setMessage] = useState(null);
   const [isError, setIsError] = useState(false);
 
@@ -44,7 +40,7 @@ const App = () => {
       <>
         <Title name = 'log in to application'/>
         <Notification msg={message} error={isError}/>
-        <Login setUsername={setUsername} setPassword={setPassword} setUser={setUser} password={password} username={username} setMessage={setMessage} setIsError={setIsError}/>
+        <Login setUser={setUser} setMessage={setMessage} setIsError={setIsError}/>
       </>
       }
       
@@ -55,7 +51,7 @@ const App = () => {
           <UserInfo setUser={setUser} user={user} />
           <Title name='create new'/>
           <Togglable buttonText='new note' ref={blogFormRef}>
-            <BlogForm title={title} setTitle={setTitle} author={author} setAuthor={setAuthor} url={url} setUrl={setUrl} blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} setIsError={setIsError} blogFormRef={blogFormRef}/>
+            <BlogForm blogs={blogs} setBlogs={setBlogs} setMessage={setMessage} setIsError={setIsError} blogFormRef={blogFormRef}/>
           </Togglable>
           <BlogList blogs={blogs} user={user} setUser={setUser} />
         </>

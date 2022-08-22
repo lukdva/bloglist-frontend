@@ -1,17 +1,23 @@
 import blogService from '../services/blogs'
+import { useState } from 'react'
 
 const BlogForm = (props) => {
+
+    const [title, setTitle] = useState('');
+    const [author, setAuthor] = useState('');
+    const [url, setUrl] = useState('');
+
     const handleNewBlogSubmit = async (event) => {
         event.preventDefault();
         try {
             props.blogFormRef.current.toggleVisibility();
-            console.log(props.title, props.author, props.url)
-            const blog = {title: props.title, author: props.author, url: props.url}
+            // console.log(props.title, props.author, props.url)
+            const blog = {title, author, url}
             const newBlog = await blogService.createNew(blog)
             console.log(newBlog)
-            props.setTitle('');
-            props.setAuthor('');
-            props.setUrl('');
+            setTitle('');
+            setAuthor('');
+            setUrl('');
             props.setBlogs(props.blogs.concat(newBlog))  
             props.setMessage('Blog created successfully');
             props.setIsError(false);
@@ -33,8 +39,8 @@ const BlogForm = (props) => {
                 <input
                 type='text'
                 name='Title'
-                value={props.title}
-                onChange={({target}) => {props.setTitle(target.value)}}
+                value={title}
+                onChange={({target}) => {setTitle(target.value)}}
                 />
             </div>
             <div>
@@ -42,8 +48,8 @@ const BlogForm = (props) => {
                 <input
                 type='text'
                 name='Author'
-                value={props.author}
-                onChange={({target}) => {props.setAuthor(target.value)}}
+                value={author}
+                onChange={({target}) => {setAuthor(target.value)}}
                 />
 
             </div>
@@ -52,8 +58,8 @@ const BlogForm = (props) => {
                 <input
                 type='text'
                 name='Url'
-                value={props.url}
-                onChange={({target}) => {props.setUrl(target.value)}}
+                value={url}
+                onChange={({target}) => {setUrl(target.value)}}
                 />
             </div>
             <button type='submit'>create</button>

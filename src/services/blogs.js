@@ -14,6 +14,13 @@ const createNew = async (blog) => {
   const config =  {headers: {'Authorization': auth}}
   const response = await axios.post(baseUrl, blog, config);
   return response.data;
-
 }
-export default { getAll, createNew, setToken }
+
+const increaseLikes = async (blog) => {
+  const config =  {headers: {'Authorization': auth}}
+  const updatedBlog = {...blog, user:blog.user.id, likes: blog.likes+1, }
+  const response = await axios.put(`${baseUrl}/${blog.id}`, updatedBlog, config);
+  return response.data;
+}
+
+export default { getAll, createNew, setToken, increaseLikes}

@@ -1,10 +1,16 @@
 import Blog from './Blog'
 
-const BlogList = (props) => {
+const BlogList = ({blogs, user, setUser, setBlogs}) => {
+
+    const updateBlogList = (updatedBlog) => {
+        const updatedBlogList = blogs.map(blog => { return blog.id == updatedBlog.id ? updatedBlog : blog })
+        setBlogs(updatedBlogList);
+    }
+    
     return (
         <div>
-            {props.blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} updateBlogList={updateBlogList} />
             )}
       </div>
     )

@@ -1,4 +1,5 @@
 import { useState, forwardRef, useImperativeHandle } from 'react'
+import PropTypes from 'prop-types'
 
 const Togglable = forwardRef((props, refs) => {
     const {buttonText, children} = props;
@@ -36,5 +37,10 @@ const Togglable = forwardRef((props, refs) => {
         </div>
     )
 })
+
+Togglable.propTypes = {
+    buttonText: PropTypes.string.isRequired,
+    children: PropTypes.element.isRequired
+}
 
 export default Togglable

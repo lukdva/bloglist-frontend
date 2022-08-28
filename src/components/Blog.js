@@ -13,10 +13,11 @@ const Blog = ({ blog, updateBlogList, user, removeBlogFromList }) => {
   const toggleVisibility = () => {
     setVisibleDetails(!visibleDetails)
   }
-  const handleLikeClick = async () => {
+  const handleLikeClick =  async () => {
     const response = await blogService.increaseLikes(blog)
-    console.log(response)
-    updateBlogList(response)
+    // console.log(response)
+    // blog.likes = 99
+    updateBlogList(blog)
   }
   const handleRemoveClick = async () => {
     if(window.confirm(`Remove blog "${blog.title}" by ${blog.author}`))
@@ -28,10 +29,10 @@ const Blog = ({ blog, updateBlogList, user, removeBlogFromList }) => {
 
   return (
     <div style = {blogStyle}>
-      <div>{blog.title} {blog.author} <button onClick={toggleVisibility}>{visibleDetails ? 'hide' : 'view'}</button> </div>
+      <div data-testid='blog_info'>{blog.title} {blog.author} <button onClick={toggleVisibility} data-testid='blog_details_view_button'>{visibleDetails ? 'hide' : 'view'}</button> </div>
       <div style={ { display: visibleDetails? '' : 'none' } }>
-        <div>{blog.url}</div>
-        <div>likes {blog.likes} <button onClick={handleLikeClick}>like</button> </div>
+        <div data-testid='blog_url'>{blog.url}</div>
+        <div data-testid='blog_likes'>likes {blog.likes} <button onClick={handleLikeClick} data-testid='blog_like_button'>like</button> </div>
         <div>{blog.user ? blog.user.name : ''}</div>
         {blog.user.username === user.username && <button onClick={handleRemoveClick}>remove</button>}
       </div>

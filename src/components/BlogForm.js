@@ -12,7 +12,6 @@ const BlogForm = (props) => {
     event.preventDefault()
     try {
       props.blogFormRef.current.toggleVisibility()
-      // console.log(props.title, props.author, props.url)
       const blog = { title, author, url }
       const newBlog = await blogService.createNew(blog)
       console.log(newBlog)
@@ -42,6 +41,7 @@ const BlogForm = (props) => {
           name='Title'
           value={title}
           onChange={({ target }) => {setTitle(target.value)}}
+          data-testid='title_input'
         />
       </div>
       <div>
@@ -51,6 +51,7 @@ const BlogForm = (props) => {
           name='Author'
           value={author}
           onChange={({ target }) => {setAuthor(target.value)}}
+          data-testid='author_input'
         />
 
       </div>
@@ -61,9 +62,10 @@ const BlogForm = (props) => {
           name='Url'
           value={url}
           onChange={({ target }) => {setUrl(target.value)}}
+          data-testid='url_input'
         />
       </div>
-      <button type='submit'>create</button>
+      <button type='submit' data-testid='create_button'>create</button>
     </form>
   )
 }

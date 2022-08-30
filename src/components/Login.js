@@ -41,6 +41,7 @@ const Login = (props) => {
             name="Username"
             value={username}
             onChange = {({ target }) => {setUsername(target.value)}}
+            data-testid='username'
           ></input>
         </div>
         <div>
@@ -50,9 +51,10 @@ const Login = (props) => {
             name="Password"
             value={password}
             onChange = {({ target }) => {setPassword(target.value)}}
+            data-testid='password'
           ></input>
         </div>
-        <button type="submit">login</button>
+        <button type="submit" data-testid='login_button'>login</button>
       </form>
     </>
   )

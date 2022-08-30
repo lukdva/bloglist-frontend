@@ -6,7 +6,7 @@ const Notification = (props) => {
     return null
   else
     return (
-      <div className={`${styleClass} notification`}>
+      <div className={`${styleClass} notification`} data-testid='notification'>
         {props.msg}
       </div>
     )

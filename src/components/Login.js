@@ -33,7 +33,7 @@ const Login = (props) => {
 
   return (
     <>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} data-testid='login_form'>
         <div>
                 username
           <input

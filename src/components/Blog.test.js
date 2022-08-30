@@ -67,7 +67,7 @@ test('Blog details become visible when View button is clicked', async () => {
   expect(blogLikesElement).toBeVisible()
 })
 
-test.only('Like button is clicked twice', async () => {
+test('Like button is clicked twice', async () => {
   const blog = {
     'author': 'John Snow',
     'likes': 5,

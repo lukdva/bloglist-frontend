@@ -14,9 +14,7 @@ const Blog = ({ blog, updateBlogList, user, removeBlogFromList }) => {
     setVisibleDetails(!visibleDetails)
   }
   const handleLikeClick =  async () => {
-    const response = await blogService.increaseLikes(blog)
-    // console.log(response)
-    // blog.likes = 99
+    await blogService.increaseLikes(blog)
     updateBlogList(blog)
   }
   const handleRemoveClick = async () => {

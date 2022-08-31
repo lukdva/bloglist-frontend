@@ -12,7 +12,7 @@ const BlogList = ({ blogs, user, setBlogs }) => {
     setBlogs(updatedBlogList)
   }
   return (
-    <div>
+    <div data-testid='blog_list'>
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>

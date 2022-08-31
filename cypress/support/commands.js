@@ -25,3 +25,12 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@testing-library/cypress/add-commands'
 
+Cypress.Commands.add('login', ({ username, password }) => {
+  cy.request('POST', 'http://localhost:3003/api/login', { username, password }).then(
+    (res) => {
+      localStorage.setItem('loggedInUser', JSON.stringify(res.body))
+      cy.visit('http://localhost:3000')
+    }
+  )
+})
+

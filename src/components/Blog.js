@@ -32,7 +32,7 @@ const Blog = ({ blog, updateBlogList, user, removeBlogFromList }) => {
         <div data-testid='blog_url'>{blog.url}</div>
         <div data-testid='blog_likes'>likes {blog.likes} <button onClick={handleLikeClick} data-testid='blog_like_button'>like</button> </div>
         <div>{blog.user ? blog.user.name : ''}</div>
-        {blog.user.username === user.username && <button onClick={handleRemoveClick}>remove</button>}
+        {blog.user.username === user.username && <button onClick={handleRemoveClick} data-testid='remove_button'>remove</button>}
       </div>
     </div>
   )

@@ -44,3 +44,11 @@ Cypress.Commands.add('addNewBlog', ({ title, author, url, likes }) => {
   cy.visit('http://localhost:3000')
 })
 
+Cypress.Commands.add('logout', () => {
+  localStorage.removeItem('loggedInUser')
+  cy.visit('http://localhost:3000')
+})
+
+Cypress.Commands.add('addNewUser', ({ username, password, name }) => {
+  cy.request('POST', 'http://localhost:3003/api/users', { username, password, name })
+})

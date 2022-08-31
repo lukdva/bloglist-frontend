@@ -70,6 +70,27 @@ describe('Blog app', function() {
         cy.get('@blog').findByTestId('blog_like_button').click()
         cy.get('@blog').findByTestId('blog_likes').should('contain', `likes ${this.likes + 1}`)
       })
+      it('A blog can be deleted by user who created it', function() {
+        cy.contains(`${this.title} ${this.author}`).parent().as('blog')
+        cy.get('@blog').findByTestId('blog_details_view_button').click()
+        cy.on('window:confirm', (str) => {
+          expect(str).to.eq(`Remove blog "${this.title}" by ${this.author}`)
+          return true
+        })
+        cy.get('@blog').findByTestId('remove_button').should('be.visible').click()
+        cy.contains(`${this.title} ${this.author}`).should('not.exist')
+      })
+      it.only('A blog can not be deleted by other user', function() {
+        const username = 'other_cypress_user'
+        const password = 'admin'
+        const name = 'Other Cypress Tester'
+        cy.logout()
+        cy.addNewUser({ username, password, name })
+        cy.login({ username, password })
+        cy.contains(`${this.title} ${this.author}`).parent().as('blog')
+        cy.get('@blog').findByTestId('blog_details_view_button').click()
+        cy.get('@blog').findByTestId('remove_button').should('not.exist')
+      })
     })
   })
 })

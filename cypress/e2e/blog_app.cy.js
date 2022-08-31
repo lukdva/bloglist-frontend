@@ -80,7 +80,7 @@ describe('Blog app', function() {
         cy.get('@blog').findByTestId('remove_button').should('be.visible').click()
         cy.contains(`${this.title} ${this.author}`).should('not.exist')
       })
-      it.only('A blog can not be deleted by other user', function() {
+      it('A blog can not be deleted by other user', function() {
         const username = 'other_cypress_user'
         const password = 'admin'
         const name = 'Other Cypress Tester'
@@ -90,6 +90,35 @@ describe('Blog app', function() {
         cy.contains(`${this.title} ${this.author}`).parent().as('blog')
         cy.get('@blog').findByTestId('blog_details_view_button').click()
         cy.get('@blog').findByTestId('remove_button').should('not.exist')
+      })
+      it('Blogs are ordered in correct order initially and after changing number of likes', function() {
+        const titleFirstBlog = 'Blog with most likes'
+        const authorFirstBlog = 'John Doe'
+        const urlFirstBlog = 'www.likes.com'
+        const likesFirstBlog = 99
+        cy.addNewBlog({ title: titleFirstBlog, author: authorFirstBlog , url: urlFirstBlog, likes: likesFirstBlog })
+        const titleSecondBlog = 'Blog with 2nd most likes'
+        const authorSecondBlog = 'John Doe'
+        const urlSecondBlog = 'www.likes.com'
+        const likesSecondBlog = 1
+        cy.addNewBlog({ title: titleSecondBlog, author: authorSecondBlog , url: urlSecondBlog, likes: likesSecondBlog })
+        const titleLastBlog = this.title
+        const authorLastBlog = this.author
+        const likesLastBlog = this.likes // 0
+
+        cy.findAllByTestId('blog_info').eq(0).should('contain', titleFirstBlog)
+        cy.findAllByTestId('blog_info').eq(1).should('contain', titleSecondBlog)
+        cy.findAllByTestId('blog_info').eq(2).should('contain', titleLastBlog)
+
+        cy.contains(`${titleLastBlog} ${authorLastBlog}`).parent().as('lastBlog')
+        cy.get('@lastBlog').findByTestId('blog_details_view_button').click()
+        cy.get('@lastBlog').findByTestId('blog_like_button').click()
+        cy.get('@lastBlog').findByTestId('blog_likes').should('contain', `likes ${likesLastBlog + 1}`)
+        cy.get('@lastBlog').findByTestId('blog_like_button').click()
+        cy.get('@lastBlog').findByTestId('blog_likes').should('contain', `likes ${likesLastBlog + 2}`)
+        cy.findAllByTestId('blog_info').eq(0).should('contain', titleFirstBlog)
+        cy.findAllByTestId('blog_info').eq(1).should('contain', titleLastBlog)
+        cy.findAllByTestId('blog_info').eq(2).should('contain', titleSecondBlog)
       })
     })
   })

@@ -40,7 +40,7 @@ describe('Blog app', function() {
       cy.login({ username: this.username, password: this.password })
     })
 
-    it.only('A blog can be created', function() {
+    it('A blog can be created', function() {
       const title = 'Title'
       const author = 'Author'
       const url = 'localhost:3000'
@@ -54,6 +54,22 @@ describe('Blog app', function() {
         .and('have.css', 'color', 'rgb(0, 128, 0)')
         .and('have.text', 'Blog created successfully')
       cy.findByTestId('blog_list').should('contain', `${title} ${author}`)
+    })
+
+    describe('When blog is created', function() {
+      beforeEach(function() {
+        this.title = 'Making Scotch Blend'
+        this.author = 'Johnie Walker'
+        this.url = 'www.johny.com'
+        this.likes = 0
+        cy.addNewBlog({ title: this.title, author: this.author , url: this.url, likes: this.likes})
+      })
+      it('A blog can be liked', function() {
+        cy.contains(`${this.title} ${this.author}`).parent().as('blog')
+        cy.get('@blog').findByTestId('blog_details_view_button').click()
+        cy.get('@blog').findByTestId('blog_like_button').click()
+        cy.get('@blog').findByTestId('blog_likes').should('contain', `likes ${this.likes + 1}`)
+      })
     })
   })
 })
